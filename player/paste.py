@@ -17,8 +17,8 @@ async def paste(content: str):
     }
     try:
         resp = requests.post(url, json=data)
-        link = "https://paste.safone.tech/" + resp.text
-        rawlink = "https://paste.safone.tech/raw/" + resp.text
+        link = f"https://paste.safone.tech/{resp.text}"
+        rawlink = f"https://paste.safone.tech/raw/{resp.text}"
         return link, rawlink
     except Exception as e:
         print(e)

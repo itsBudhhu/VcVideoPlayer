@@ -31,8 +31,7 @@ async def play(client, m: Message):
         else:
             query = m.text.split(None, 1)[1]
             regex = r"^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+"
-            match = re.match(regex,query)
-            if match:
+            if match := re.match(regex, query):
                 try:
                     meta = ydl.extract_info(query, download=False)
                     formats = meta.get('formats', [meta])
@@ -68,7 +67,7 @@ async def play(client, m: Message):
                 await idle()
             except Exception as e:
                 await msg.edit_caption(f"**Error** -- `{e}`")
-   
+
     elif replied.audio or replied.document:
         if replied.audio.thumbs:
             huehue = replied.audio.thumbs[0]
@@ -107,8 +106,7 @@ async def stream(client, m: Message):
         else:
             query = m.text.split(None, 1)[1]
             regex = r"^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+"
-            match = re.match(regex,query)
-            if match:
+            if match := re.match(regex, query):
                 try:
                     meta = ydl.extract_info(query, download=False)
                     formats = meta.get('formats', [meta])
@@ -145,7 +143,7 @@ async def stream(client, m: Message):
                 await idle()
             except Exception as e:
                 await msg.edit_caption(f"**Error** -- `{e}`")
-   
+
     elif replied.video or replied.document:
         if replied.video.thumbs:
             huehue = replied.video.thumbs[0]
@@ -195,8 +193,7 @@ async def chstream(client, m: Message):
         else:
             query = m.text.split(None, 1)[1]
             regex = r"^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+"
-            match = re.match(regex,query)
-            if match:
+            if match := re.match(regex, query):
                 try:
                     meta = ydl.extract_info(query, download=False)
                     formats = meta.get('formats', [meta])
@@ -226,7 +223,7 @@ async def chstream(client, m: Message):
                 await idle()
             except Exception as e:
                 await msg.edit(f"**Error** -- `{e}`")
-   
+
     elif replied.video or replied.document:
         msg = await m.reply("`Downloading...`")
         file = await client.download_media(m.reply_to_message)

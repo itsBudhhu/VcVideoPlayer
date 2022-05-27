@@ -66,24 +66,30 @@ async def who_is(client, message):
     if from_user is None:
         await status_message.edit("no valid user_id / message specified")
         return
-    
+
     first_name = from_user.first_name or ""
     last_name = from_user.last_name or ""
     username = from_user.username or ""
-    
+
     message_out_str = (
         "<b>Name:</b> "
         f"<a href='tg://user?id={from_user.id}'>{first_name}</a>\n"
         f"<b>Suffix:</b> {last_name}\n"
         f"<b>Username:</b> @{username}\n"
         f"<b>User ID:</b> <code>{from_user.id}</code>\n"
-        f"<b>User Link:</b> {from_user.mention}\n" if from_user.username else ""
-        f"<b>Is Deleted:</b> True\n" if from_user.is_deleted else ""
-        f"<b>Is Verified:</b> True" if from_user.is_verified else ""
-        f"<b>Is Scam:</b> True" if from_user.is_scam else ""
+        f"<b>User Link:</b> {from_user.mention}\n"
+        if from_user.username
+        else ""
+        if from_user.is_deleted
+        else ""
+        if from_user.is_verified
+        else ""
+        if from_user.is_scam
+        else ""
         # f"<b>Is Fake:</b> True" if from_user.is_fake else ""
         f"<b>Last Seen:</b> <code>{last_online(from_user)}</code>\n\n"
     )
+
 
     if message.chat.type in ["supergroup", "channel"]:
         try:
@@ -98,8 +104,7 @@ async def who_is(client, message):
             )
         except UserNotParticipant:
             pass
-    chat_photo = from_user.photo
-    if chat_photo:
+    if chat_photo := from_user.photo:
         local_user_photo = await client.download_media(
             message=chat_photo.big_file_id
         )

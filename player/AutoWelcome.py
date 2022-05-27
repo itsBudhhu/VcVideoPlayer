@@ -20,34 +20,38 @@ async def auto_welcome(bot: Client, msg: Message):
     print("Welcome Message Activate")
     BUTTON = bool(os.environ.get("WELCOME_BUTTON"))
     if not BUTTON:
-       await msg.reply_text(text=WELCOME_TEXT.format(
-           first = msg.from_user.first_name,
-           last = msg.from_user.last_name,
-           username = None if not msg.from_user.username else '@' + msg.from_user.username,
-           mention = msg.from_user.mention,
-           id = msg.from_user.id,
-           group_name = msg.chat.title,
-           group_username = None if not msg.chat.username else '@' + msg.chat.username
-          )
-       )
+        await msg.reply_text(
+            text=WELCOME_TEXT.format(
+                first=msg.from_user.first_name,
+                last=msg.from_user.last_name,
+                username=f'@{msg.from_user.username}'
+                if msg.from_user.username
+                else None,
+                mention=msg.from_user.mention,
+                id=msg.from_user.id,
+                group_name=msg.chat.title,
+                group_username=f'@{msg.chat.username}'
+                if msg.chat.username
+                else None,
+            )
+        )
+
     else:
-       await msg.reply_text(text=WELCOME_TEXT.format(
-           first = msg.from_user.first_name,
-           last = msg.from_user.last_name,
-           username = None if not msg.from_user.username else '@' + msg.from_user.username,
-           mention = msg.from_user.mention,
-           id = msg.from_user.id,
-           group_name = msg.chat.title,
-           group_username = None if not msg.chat.username else '@' + msg.chat.username
-          ),
-       reply_markup=InlineKeyboardMarkup(
-               [
-                   [
-                       InlineKeyboardButton
-                           (
-                               button_name, url=button_link
-                           )
-                   ]  
-               ]
-           )
-       )  
+        await msg.reply_text(
+            text=WELCOME_TEXT.format(
+                first=msg.from_user.first_name,
+                last=msg.from_user.last_name,
+                username=f'@{msg.from_user.username}'
+                if msg.from_user.username
+                else None,
+                mention=msg.from_user.mention,
+                id=msg.from_user.id,
+                group_name=msg.chat.title,
+                group_username=f'@{msg.chat.username}'
+                if msg.chat.username
+                else None,
+            ),
+            reply_markup=InlineKeyboardMarkup(
+                [[InlineKeyboardButton(button_name, url=button_link)]]
+            ),
+        )  
